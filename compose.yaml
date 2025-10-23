@@ -58,15 +58,61 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      PORT: ${APP_PORT}
       NODE_ENV: production
-
-    ports:
-      - ${APP_PORT}:${APP_PORT}
+      APP_PORT: ${APP_PORT}
+      WB_API_URL: ${WB_API_URL}
+      WB_API_KEY: ${WB_API_KEY}
+      GOOGLE_CREDENTIALS_PATH: ${GOOGLE_CREDENTIALS_PATH}
+      GOOGLE_SPREADSHEET_ID: ${GOOGLE_SPREADSHEET_ID}
 
     depends_on:
       postgres:
         condition: service_healthy
+    networks:
+      - postgres-net
+
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: 5
+
+    command: [ "npm", "run", "start" ]
+    restart: unless-stopped
+
+    healthcheck:
+      test: [ "CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:${APP_PORT}/health || exit 1" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  scheduler:
+    container_name: scheduler
+
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      NODE_ENV: production
+      APP_PORT: ${APP_PORT}
+      WB_API_URL: ${WB_API_URL}
+      WB_API_KEY: ${WB_API_KEY}
+      GOOGLE_CREDENTIALS_PATH: ${GOOGLE_CREDENTIALS_PATH}
+      GOOGLE_SPREADSHEET_ID: ${GOOGLE_SPREADSHEET_ID}
+
+    depends_on:
+      app:
+        condition: service_healthy 
     networks:
       - postgres-net
 
@@ -76,5 +122,5 @@ services:
         max-size: 10m
         max-file: 5
 
-    command: [ "npm", "run", "start" ]
+    command: [ "node", "dist/utils/cron.js" ]
     restart: unless-stopped

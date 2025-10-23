@@ -1,6 +1,11 @@
 import dotenv from "dotenv";
 import { z } from "zod";
-dotenv.config();
+
+// Загружаем .env файл только если NODE_ENV не production
+// В production переменные должны передаваться через Docker Compose
+if (process.env.NODE_ENV !== "production") {
+    dotenv.config();
+}
 
 const envSchema = z.object({
     NODE_ENV: z.union([z.undefined(), z.enum(["development", "production"])]),
@@ -19,6 +24,11 @@ const envSchema = z.object({
             .regex(/^[0-9]+$/)
             .transform((value) => parseInt(value)),
     ]),
+    // Google Sheets API переменные (опциональные для миграций)
+    GOOGLE_CREDENTIALS_PATH: z.string().optional(),
+    GOOGLE_SPREADSHEET_ID: z.string().optional(),
+    WB_API_URL: z.string().optional(),
+    WB_API_KEY: z.string().optional(),
 });
 
 const env = envSchema.parse({
@@ -29,6 +39,10 @@ const env = envSchema.parse({
     POSTGRES_PASSWORD: process.env.POSTGRES_PASSWORD,
     NODE_ENV: process.env.NODE_ENV,
     APP_PORT: process.env.APP_PORT,
+    GOOGLE_CREDENTIALS_PATH: process.env.GOOGLE_CREDENTIALS_PATH,
+    GOOGLE_SPREADSHEET_ID: process.env.GOOGLE_SPREADSHEET_ID,
+    WB_API_URL: process.env.WB_API_URL,
+    WB_API_KEY: process.env.WB_API_KEY,
 });
 
 export default env;
