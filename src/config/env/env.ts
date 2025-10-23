@@ -27,6 +27,7 @@ const envSchema = z.object({
     // Google Sheets API переменные (опциональные для миграций)
     GOOGLE_CREDENTIALS_PATH: z.string().optional(),
     GOOGLE_SPREADSHEET_ID: z.string().optional(),
+    GOOGLE_SHEET_NAME: z.string().optional(),
     WB_API_URL: z.string().optional(),
     WB_API_KEY: z.string().optional(),
 });
@@ -41,6 +42,7 @@ const env = envSchema.parse({
     APP_PORT: process.env.APP_PORT,
     GOOGLE_CREDENTIALS_PATH: process.env.GOOGLE_CREDENTIALS_PATH,
     GOOGLE_SPREADSHEET_ID: process.env.GOOGLE_SPREADSHEET_ID,
+    GOOGLE_SHEET_NAME: process.env.GOOGLE_SHEET_NAME,
     WB_API_URL: process.env.WB_API_URL,
     WB_API_KEY: process.env.WB_API_KEY,
 });

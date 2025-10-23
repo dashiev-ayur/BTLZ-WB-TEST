@@ -1,3 +1,21 @@
+# Для проверки
+
+Создать .env (example.env)
+Создать credentials/google-service-account.json (google-service-account.example.json)
+Вставить данные своей таблицы 
+
+Запустить команды:
+> docker compose down --rmi local --volumes
+> docker compose up --build
+
+# Полезные ссылки:
+// https://docs.google.com/document/u/0/d/e/2PACX-1vTYfLgip1G1-GmLsU7T3RCmT52eoR1ZPOaSBkNWPCA0Db534AhNFm32lplolcTZGdHufBAjz_TrOrdZ/pub?pli=1
+// https://dev.wildberries.ru/openapi/api-information#tag/Vvedenie/Podderzhka
+// https://github.com/lucard17/btlz-wb-test
+// https://console.cloud.google.com/iam-admin/serviceaccounts/details/117012667017541279854/keys?project=btlz-wb-test-475901
+// https://docs.google.com/spreadsheets/d/1gByvYsnZZ690vDAWsXpGdnvav4n2z7or01AKfjGV2Ro/edit?gid=0#gid=0
+
+
 # Шаблон для выполнения тестового задания
 
 ## Описание

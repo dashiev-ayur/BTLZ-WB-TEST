@@ -26,13 +26,13 @@ cron.schedule("* * * * *", async () => {
 
 // Запуск команды npm run wbFetchTariffs один раз в час
 // каждый час на 5 минуте
-cron.schedule("5 * * * *", async () => {
+cron.schedule("41 * * * *", async () => {
     await runCommand("npm run wbFetchTariffs");
 });
 
 // Запуск команды npm run wbUpdateTariffs один раз в час
 // каждый час на 10 минуте
-cron.schedule("10 * * * *", async () => {
+cron.schedule("42 * * * *", async () => {
     await runCommand("npm run wbUpdateTariffs");
 });
 

@@ -1,17 +1,11 @@
 import { toNumber } from "#common/toNumber.js";
+import env from "#config/env/env.js";
 import { getLatestTariffsBox, updateTariffs } from "#services/DB/tarrifs.js";
 import { writeDataToSheet } from "#services/Google/writeDataToSheet.js";
 import { getTariffsBox } from "#services/WB/getTarrifsBox.js";
 import { Command } from "commander";
 
 const program = new Command();
-
-// Полезные ссылки:
-// https://docs.google.com/document/u/0/d/e/2PACX-1vTYfLgip1G1-GmLsU7T3RCmT52eoR1ZPOaSBkNWPCA0Db534AhNFm32lplolcTZGdHufBAjz_TrOrdZ/pub?pli=1
-// https://dev.wildberries.ru/openapi/api-information#tag/Vvedenie/Podderzhka
-// https://github.com/lucard17/btlz-wb-test
-// https://console.cloud.google.com/iam-admin/serviceaccounts/details/117012667017541279854/keys?project=btlz-wb-test-475901
-// https://docs.google.com/spreadsheets/d/1gByvYsnZZ690vDAWsXpGdnvav4n2z7or01AKfjGV2Ro/edit?gid=0#gid=0
 
 program.command("wbFetchTariffs").action(async () => {
     console.log("Let's update tariffs..");
@@ -99,7 +93,8 @@ program.command("wbUpdateTariffs").action(async () => {
         }
     }
 
-    await writeDataToSheet("Sheet1!A:Z", [titles, ...list.map((el) => Object.values(el))], true);
+    const sheetName = env.GOOGLE_SHEET_NAME || "Sheet1";
+    await writeDataToSheet(`${sheetName}!A:Z`, [titles, ...list.map((el) => Object.values(el))], true);
     process.exit(0);
 });
 
