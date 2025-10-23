@@ -1,8 +1,6 @@
 node_modules
 .vscode
 .local
-credentials/
-!credentials/*.example.*
 .env
 dist
 *.log
@@ -10,3 +8,5 @@ dist
 
 # Google Service Account credentials (исключаем из репозитория)
 credentials/google-service-account.json
+# Но разрешаем example файлы
+!credentials/*.example.*
