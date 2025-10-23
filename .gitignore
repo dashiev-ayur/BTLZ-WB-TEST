@@ -2,7 +2,11 @@ node_modules
 .vscode
 .local
 credentials/
+!credentials/*.example.*
 .env
 dist
 *.log
 .DS_Store
+
+# Google Service Account credentials (исключаем из репозитория)
+credentials/google-service-account.json
